@@ -28,12 +28,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased px-5 md:px-0`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ReduxProvider>
           <ReactQueryProvider>
             <AppHeader active="todos" />
-            {children}
+            <div className="container mx-auto max-w-2xl">{children}</div>
           </ReactQueryProvider>
         </ReduxProvider>
       </body>

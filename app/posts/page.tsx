@@ -16,6 +16,10 @@ import { PostsEmpty } from "@/components/posts/PostsEmpty";
 import { PostsError } from "@/components/posts/PostsError";
 import { PostsList } from "@/components/posts/PostsList";
 
+import { CommentsSkeleton } from "@/components/posts/CommentsSkeleton";
+import { PostDetailSkeleton } from "@/components/posts/PostDetailSkeleton";
+import { PostsListSkeleton } from "@/components/posts/PostsListSkeleton";
+
 export default function PostsPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -32,13 +36,13 @@ export default function PostsPage() {
 
     const rawValue = e.currentTarget.value.trim();
 
+    // Clear search
     if (!rawValue) {
       router.push("/posts");
       return;
     }
 
     const value = Number(rawValue);
-
     if (Number.isNaN(value)) return;
 
     router.push(`/posts?postId=${value}`);
@@ -64,22 +68,30 @@ export default function PostsPage() {
       {/* SEARCH MODE */}
       {postId ? (
         <>
+          {/* Post detail */}
+          {postQuery.isLoading && <PostDetailSkeleton />}
+
           {postQuery.isError && <PostsError message="Post not found" />}
 
           {postQuery.isSuccess && (
             <>
               <PostDetail post={postQuery.data} />
               <Separator />
-              <CommentsList
-                isLoading={commentsQuery.isLoading}
-                comments={commentsQuery.data}
-              />
+
+              {/* Comments */}
+              {commentsQuery.isLoading && <CommentsSkeleton />}
+
+              {commentsQuery.isSuccess && (
+                <CommentsList comments={commentsQuery.data} isLoading={false} />
+              )}
             </>
           )}
         </>
       ) : (
         <>
           {/* BROWSE MODE */}
+          {postsQuery.isLoading && <PostsListSkeleton />}
+
           {postsQuery.isError && <PostsError message="Failed to load posts" />}
 
           {postsQuery.isSuccess && <PostsList posts={postsQuery.data} />}
