@@ -1,10 +1,11 @@
 "use client";
 
-import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import type { Todo } from "@/types/todo";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Trash2 } from "lucide-react";
+
 import { useTodos } from "@/hooks/useTodos";
+import type { Todo } from "@/types/todo";
 
 interface TodoItemProps {
   todo: Todo;
@@ -14,26 +15,32 @@ export function TodoItem({ todo }: TodoItemProps) {
   const { toggleTodo, deleteTodo } = useTodos();
 
   return (
-    <Card className="flex items-center justify-between p-4">
-      <div
-        className="flex items-center gap-3 cursor-pointer"
-        onClick={() => toggleTodo(todo.id)}
-      >
+    <div className="flex items-center justify-between">
+      <div className="flex items-center gap-3">
+        <Checkbox
+          checked={todo.completed}
+          onCheckedChange={() => toggleTodo(todo.id)}
+        />
+
         <span
-          className={todo.completed ? "line-through text-muted-foreground" : ""}
+          className={`text-sm transition ${
+            todo.completed
+              ? "line-through text-muted-foreground"
+              : "text-foreground"
+          }`}
         >
           {todo.title}
         </span>
-        {todo.completed && <Badge>Done</Badge>}
       </div>
 
       <Button
-        variant="destructive"
-        size="sm"
+        variant="ghost"
+        size="icon"
         onClick={() => deleteTodo(todo.id)}
+        aria-label="Delete todo"
       >
-        Delete
+        <Trash2 className="h-4 w-4 text-muted-foreground hover:text-destructive" />
       </Button>
-    </Card>
+    </div>
   );
 }

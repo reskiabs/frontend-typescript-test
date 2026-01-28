@@ -18,7 +18,7 @@ export function TodoFilter() {
       value={filter}
       onValueChange={(value) => setFilter(value as FilterType)}
     >
-      <SelectTrigger className="w-40">
+      <SelectTrigger className="w-32">
         <SelectValue placeholder="Filter" />
       </SelectTrigger>
       <SelectContent>

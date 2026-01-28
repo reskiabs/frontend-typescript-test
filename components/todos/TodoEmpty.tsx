@@ -1,40 +1,26 @@
-import { Button } from "@/components/ui/button";
 import {
   Empty,
-  EmptyContent,
   EmptyDescription,
   EmptyHeader,
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty";
-import { ArrowUpRightIcon, Folder } from "lucide-react";
+import { Folder } from "lucide-react";
 
 export function TodoEmpty() {
   return (
     <Empty>
-      <EmptyHeader>
+      <EmptyHeader className="space-y-3">
         <EmptyMedia variant="icon">
-          <Folder />
+          <Folder className="h-5 w-5 text-muted-foreground" />
         </EmptyMedia>
-        <EmptyTitle>No Todo Yet</EmptyTitle>
-        <EmptyDescription>
-          You don&apos;t have any todo yet. Create one now.
+
+        <EmptyTitle className="text-sm font-medium">No todos yet</EmptyTitle>
+
+        <EmptyDescription className="text-sm text-muted-foreground">
+          Add your first task by typing above and pressing Enter.
         </EmptyDescription>
       </EmptyHeader>
-      <EmptyContent className="flex-row justify-center gap-2">
-        <Button>Create Project</Button>
-        <Button variant="outline">Import Project</Button>
-      </EmptyContent>
-      <Button
-        variant="link"
-        asChild
-        className="text-muted-foreground"
-        size="sm"
-      >
-        <a href="#">
-          Learn More <ArrowUpRightIcon />
-        </a>
-      </Button>
     </Empty>
   );
 }
