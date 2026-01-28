@@ -1,4 +1,4 @@
-import { AppHeader } from "@/components/Header";
+import { NavBar } from "@/components/NavBar";
 import { ReactQueryProvider } from "@/providers/ReactQueryProvider";
 import { ReduxProvider } from "@/providers/ReduxProvider";
 import type { Metadata } from "next";
@@ -32,7 +32,7 @@ export default function RootLayout({
       >
         <ReduxProvider>
           <ReactQueryProvider>
-            <AppHeader active="todos" />
+            <NavBar />
             <div className="container mx-auto max-w-2xl">{children}</div>
           </ReactQueryProvider>
         </ReduxProvider>
