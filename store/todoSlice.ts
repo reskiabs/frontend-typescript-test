@@ -1,10 +1,5 @@
-import type { Todo, TodoFilter } from "@/types/todo";
+import type { Todo, TodoFilter, TodoState } from "@/types/todo";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-interface TodoState {
-  items: Todo[];
-  filter: TodoFilter;
-}
 
 const initialState: TodoState = {
   items: [],

@@ -6,13 +6,12 @@ import reducer, {
   toggleTodo,
 } from "@/store/todoSlice";
 
-import type { Todo } from "@/types/todo";
+import type { Todo, TodoState } from "@/types/todo";
 
-const initialState = {
+const initialState: TodoState = {
   items: [],
   filter: "all",
 };
-
 describe("todoSlice - hydrateTodos", () => {
   it("should hydrate todos from payload", () => {
     const todos: Todo[] = [{ id: 1, title: "Test Todo", completed: false }];
@@ -38,7 +37,7 @@ describe("todoSlice - addTodo", () => {
 
 describe("todoSlice - toggleTodo", () => {
   it("should toggle completed state", () => {
-    const populatedState = {
+    const populatedState: TodoState = {
       items: [{ id: 1, title: "Task", completed: false }],
       filter: "all",
     };
@@ -51,7 +50,7 @@ describe("todoSlice - toggleTodo", () => {
 
 describe("todoSlice - deleteTodo", () => {
   it("should remove todo by id", () => {
-    const populatedState = {
+    const populatedState: TodoState = {
       items: [{ id: 1, title: "Task", completed: false }],
       filter: "all",
     };
