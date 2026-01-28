@@ -1,6 +1,7 @@
 "use client";
 
-import { KeyboardEvent, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { KeyboardEvent } from "react";
 
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
@@ -16,19 +17,31 @@ import { PostsError } from "@/components/posts/PostsError";
 import { PostsList } from "@/components/posts/PostsList";
 
 export default function PostsPage() {
-  const [searchId, setSearchId] = useState<number | undefined>();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const postIdParam = searchParams.get("postId");
+  const postId = postIdParam ? Number(postIdParam) : undefined;
 
   const postsQuery = usePosts();
-  const postQuery = usePostById(searchId);
-  const commentsQuery = useComments(searchId);
+  const postQuery = usePostById(postId);
+  const commentsQuery = useComments(postId);
 
   const handleSearch = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key !== "Enter") return;
 
-    const value = Number(e.currentTarget.value);
-    if (!value) return;
+    const rawValue = e.currentTarget.value.trim();
 
-    setSearchId(value);
+    if (!rawValue) {
+      router.push("/posts");
+      return;
+    }
+
+    const value = Number(rawValue);
+
+    if (Number.isNaN(value)) return;
+
+    router.push(`/posts?postId=${value}`);
   };
 
   return (
@@ -37,33 +50,26 @@ export default function PostsPage() {
       <div className="space-y-2">
         <h1 className="text-2xl font-semibold tracking-tight">Posts</h1>
         <p className="text-sm text-muted-foreground">
-          Browse posts and inspect details by ID
+          Browse posts or inspect a post by ID
         </p>
       </div>
 
       {/* Search */}
       <Input
+        defaultValue={postIdParam ?? ""}
         placeholder="Search post by ID and press Enter"
         onKeyDown={handleSearch}
       />
 
-      {/* Error State */}
-      {postsQuery.isError && <PostsError message="Failed to load posts" />}
-
-      {/* Posts List */}
-      {postsQuery.isSuccess && <PostsList posts={postsQuery.data} />}
-
-      {/* Detail Section */}
-      {searchId && (
+      {/* SEARCH MODE */}
+      {postId ? (
         <>
-          <Separator />
-
           {postQuery.isError && <PostsError message="Post not found" />}
 
           {postQuery.isSuccess && (
             <>
               <PostDetail post={postQuery.data} />
-
+              <Separator />
               <CommentsList
                 isLoading={commentsQuery.isLoading}
                 comments={commentsQuery.data}
@@ -71,10 +77,16 @@ export default function PostsPage() {
             </>
           )}
         </>
-      )}
+      ) : (
+        <>
+          {/* BROWSE MODE */}
+          {postsQuery.isError && <PostsError message="Failed to load posts" />}
 
-      {/* Empty State */}
-      {!searchId && <PostsEmpty />}
+          {postsQuery.isSuccess && <PostsList posts={postsQuery.data} />}
+
+          <PostsEmpty />
+        </>
+      )}
     </main>
   );
 }
