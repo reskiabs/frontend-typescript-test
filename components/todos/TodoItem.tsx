@@ -7,11 +7,11 @@ import { Trash2 } from "lucide-react";
 import { useTodos } from "@/hooks/useTodos";
 import type { Todo } from "@/types/todo";
 
-interface TodoItemProps {
+interface Props {
   todo: Todo;
 }
 
-export function TodoItem({ todo }: TodoItemProps) {
+export function TodoItem({ todo }: Props) {
   const { toggleTodo, deleteTodo } = useTodos();
 
   return (
