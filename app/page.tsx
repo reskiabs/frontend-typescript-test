@@ -4,7 +4,7 @@ import { TodoList } from "@/components/todos/TodoList";
 
 export default function HomePage() {
   return (
-    <main className="container mx-auto max-w-2xl py-12 space-y-6 px-8 md:px-0">
+    <main className="container mx-auto max-w-2xl py-12 space-y-6 ">
       <div className="space-y-2">
         <h1 className="text-2xl font-semibold tracking-tight">Todos</h1>
         <p className="text-sm text-muted-foreground">
