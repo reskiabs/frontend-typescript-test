@@ -1,3 +1,4 @@
+import { saveTodos } from "@/utils/todoStorage";
 import { configureStore } from "@reduxjs/toolkit";
 import todoReducer from "./todoSlice";
 
@@ -5,6 +6,11 @@ export const store = configureStore({
   reducer: {
     todos: todoReducer,
   },
+});
+
+store.subscribe(() => {
+  const state = store.getState();
+  saveTodos(state.todos.items);
 });
 
 export type RootState = ReturnType<typeof store.getState>;
