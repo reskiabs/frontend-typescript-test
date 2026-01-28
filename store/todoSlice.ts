@@ -7,11 +7,7 @@ interface TodoState {
 }
 
 const initialState: TodoState = {
-  items: [
-    { id: 1, title: "Learn Next.js", completed: false },
-    { id: 2, title: "Setup shadcn/ui", completed: true },
-    { id: 3, title: "Build Todo UI", completed: false },
-  ],
+  items: [],
   filter: "all",
 };
 
@@ -19,6 +15,9 @@ const todoSlice = createSlice({
   name: "todos",
   initialState,
   reducers: {
+    hydrateTodos(state, action: PayloadAction<Todo[]>) {
+      state.items = action.payload;
+    },
     addTodo(state, action: PayloadAction<string>) {
       state.items.push({
         id: Date.now(),
@@ -28,9 +27,7 @@ const todoSlice = createSlice({
     },
     toggleTodo(state, action: PayloadAction<number>) {
       const todo = state.items.find((t) => t.id === action.payload);
-      if (todo) {
-        todo.completed = !todo.completed;
-      }
+      if (todo) todo.completed = !todo.completed;
     },
     deleteTodo(state, action: PayloadAction<number>) {
       state.items = state.items.filter((t) => t.id !== action.payload);
@@ -41,6 +38,7 @@ const todoSlice = createSlice({
   },
 });
 
-export const { addTodo, toggleTodo, deleteTodo, setFilter } = todoSlice.actions;
+export const { addTodo, toggleTodo, deleteTodo, setFilter, hydrateTodos } =
+  todoSlice.actions;
 
 export default todoSlice.reducer;
