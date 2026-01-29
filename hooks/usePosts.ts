@@ -6,6 +6,6 @@ export function usePosts() {
   return useQuery<Post[]>({
     queryKey: ["posts"],
     queryFn: fetchPosts,
-    staleTime: 1000 * 60 * 5, // 5 minutes
+    staleTime: 1000 * 60 * 5,
   });
 }

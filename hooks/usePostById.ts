@@ -7,6 +7,6 @@ export function usePostById(postId?: number) {
     queryKey: ["post", postId],
     queryFn: () => fetchPostById(postId as number),
     enabled: typeof postId === "number",
-    retry: false, // jangan retry untuk search ID
+    retry: false,
   });
 }

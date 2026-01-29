@@ -17,6 +17,6 @@ export function saveTodos(todos: Todo[]) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
   } catch {
-    // silent
+    console.error("Failed to save todos");
   }
 }
